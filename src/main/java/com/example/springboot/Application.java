@@ -19,10 +19,15 @@ public class Application {
 	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return String.format("Hello %s!", name);
 	}
-	@GetMapping("/findex")
+	@GetMapping("/index")
 	public String index(@RequestParam(value = "name", defaultValue = "findex") String name) {
 		return String.format("Hello %s!", name);
 	}
+	@GetMapping("/findex")
+	public String findex(@RequestParam(value = "name", defaultValue = "findex") String name) {
+		return String.format("Hello %s!", name);
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
