@@ -2,6 +2,7 @@ package com.example.springboot;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.jsoup.nodes.Document;
@@ -33,52 +34,44 @@ public class Application {
 	public String findex(@RequestParam(value = "name", defaultValue = "findex") String name) {
 		return String.format("Hello %s!", name);
 	}
-
-	public static void main(String[] args) throws IOException {
-        Document document = Jsoup.connect("https://ru.investing.com/equities/").get();
+	public static ArrayList<Pair> get_pairs() throws IOException{
+		ArrayList<Pair> pairs = new ArrayList<>();
+		Document document = Jsoup.connect("https://ru.investing.com/equities/").get();
 		Elements h1 = document.select("tbody");
 		Element rus = h1.get(0);
 		Elements trs = rus.select("tr");
 		for (Element i: trs) {
 			String id = i.attributes().get("id");
-			Integer id_int = Integer.valueOf(id.substring(5));
-			String costValue = "pid-" + id_int + "-last";
-			String highValue = "pid-" + id_int + "-high";
-			String lowValue = "pid-" + id_int + "-low";
-			String changeValue1 = "bold greenFont pid-" + id_int + "-pc";
-			String percentValue1 = "bold greenFont pid-" + id_int + "-pcp";
-			String changeValue2 = "bold redFont pid-" + id_int + "-pc";
-			String percentValue2 = "bold redFont pid-" + id_int + "-pcp";
-			String turnoverValue = "pid-" + id_int + "-turnover";
-			String timeValue = "pid-" + id_int + "-time";
+			int id_int = Integer.parseInt(id.substring(5));
 			Elements title0 = i.getElementsByAttributeValue("class", "bold left noWrap elp plusIconTd");
 			Elements title = title0.select("a");
-			Elements cost = i.getElementsByAttributeValue("class", costValue);
-			Elements high = i.getElementsByAttributeValue("class", highValue);
-			Elements low = i.getElementsByAttributeValue("class", lowValue);
-			Elements change = i.getElementsByAttributeValue("class", changeValue1);
-			Elements change1 = i.getElementsByAttributeValue("class", changeValue2);
-			Elements percent = i.getElementsByAttributeValue("class", percentValue1);
-			Elements percent1 = i.getElementsByAttributeValue("class", percentValue2);
-			Elements turnover = i.getElementsByAttributeValue("class", turnoverValue);
-			Elements time = i.getElementsByAttributeValue("class", timeValue);
-			//System.out.println(i);
-			//System.out.println(id);
-			System.out.println(title.text());
-			System.out.println(cost.text());
-			System.out.println(high.text());
-			System.out.println(low.text());
-			if(change.size() != 0) {System.out.println(change.text());}
-			if(change1.size() != 0)System.out.println(change1.text());
-			if(percent.size() != 0) {System.out.println(percent.text());}
-			if(percent1.size() != 0) System.out.println(percent1.text());
-			System.out.println(turnover.text());
-			System.out.println(time.text());
-			//System.out.println(id_int);
-			System.out.println("________");
+			Elements cost = i.getElementsByAttributeValueEnding("class", "-last");
+			Elements high = i.getElementsByAttributeValueEnding("class", "-high");
+			Elements low = i.getElementsByAttributeValueEnding("class", "-low");
+			Elements change = i.getElementsByAttributeValueEnding("class", "-pc");
+			Elements percent = i.getElementsByAttributeValueEnding("class", "-pcp");
+			Elements turnover = i.getElementsByAttributeValueEnding("class", "-turnover");
+			Elements time = i.getElementsByAttributeValueEnding("class", "-time");
+			Pair pair = new Pair();
+			pair.id = id_int;
+			pair.title = title.text();
+			pair.cost = Pair.parse(cost.text());
+			pair.high = Pair.parse(high.text());
+			pair.low = Pair.parse(low.text());
+			pair.change = Pair.parse(change.text());
+			int len = percent.text().length();
+			pair.percent = Pair.parse(percent.text().substring(0, len - 1));
+			pair.set_turnover(turnover.text());
+			pair.time = time.text();
+			pairs.add(pair);
+		}
+		return pairs;
+	}
+	public static void main(String[] args) throws IOException {
+		for (Pair i : get_pairs()){
+			System.out.println(i);
 		}
         SpringApplication.run(Application.class, args);
-
 	}
 
 	@Bean
