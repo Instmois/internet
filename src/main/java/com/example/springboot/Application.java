@@ -34,7 +34,8 @@ public class Application {
 	public String findex(@RequestParam(value = "name", defaultValue = "findex") String name) {
 		return String.format("Hello %s!", name);
 	}
-	public static void get_pairs() throws IOException{
+	public static ArrayList<Pair> get_pairs() throws IOException{
+		ArrayList<Pair> pairs = new ArrayList<>();
 		Document document = Jsoup.connect("https://ru.investing.com/equities/").get();
 		Elements h1 = document.select("tbody");
 		Element rus = h1.get(0);
@@ -51,23 +52,26 @@ public class Application {
 			Elements percent = i.getElementsByAttributeValueEnding("class", "-pcp");
 			Elements turnover = i.getElementsByAttributeValueEnding("class", "-turnover");
 			Elements time = i.getElementsByAttributeValueEnding("class", "-time");
-//			System.out.println(i);
-// 			System.out.println(id_int);
-			System.out.println(title.text());
-			System.out.println(cost.text());
-			System.out.println(high.text());
-			System.out.println(low.text());
-			System.out.println(change.text());
-			System.out.println(percent.text());
-			System.out.println(turnover.text());
-			System.out.println(time.text());
-			System.out.println("________");
+			Pair pair = new Pair();
+			pair.id = id_int;
+			pair.title = title.text();
+			pair.cost = Pair.parse(cost.text());
+			pair.high = Pair.parse(high.text());
+			pair.low = Pair.parse(low.text());
+			pair.change = Pair.parse(change.text());
+			int len = percent.text().length();
+			pair.percent = Pair.parse(percent.text().substring(0, len - 1));
+			pair.set_turnover(turnover.text());
+			pair.time = time.text();
+			pairs.add(pair);
 		}
+		return pairs;
 	}
 	public static void main(String[] args) throws IOException {
-		get_pairs();
+		for (Pair i : get_pairs()){
+			System.out.println(i);
+		}
         SpringApplication.run(Application.class, args);
-
 	}
 
 	@Bean
