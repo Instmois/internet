@@ -1,9 +1,9 @@
 package com.example.springboot;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,41 +34,31 @@ public class Application {
 	public String findex(@RequestParam(value = "name", defaultValue = "findex") String name) {
 		return String.format("Hello %s!", name);
 	}
-	public static ArrayList<Pair> get_pairs() throws IOException{
-		ArrayList<Pair> pairs = new ArrayList<>();
-		Document document = Jsoup.connect("https://ru.investing.com/equities/").get();
-		Elements h1 = document.select("tbody");
-		Element rus = h1.get(0);
-		Elements trs = rus.select("tr");
-		for (Element i: trs) {
-			String id = i.attributes().get("id");
-			int id_int = Integer.parseInt(id.substring(5));
-			Elements title0 = i.getElementsByAttributeValue("class", "bold left noWrap elp plusIconTd");
-			Elements title = title0.select("a");
-			Elements cost = i.getElementsByAttributeValueEnding("class", "-last");
-			Elements high = i.getElementsByAttributeValueEnding("class", "-high");
-			Elements low = i.getElementsByAttributeValueEnding("class", "-low");
-			Elements change = i.getElementsByAttributeValueEnding("class", "-pc");
-			Elements percent = i.getElementsByAttributeValueEnding("class", "-pcp");
-			Elements turnover = i.getElementsByAttributeValueEnding("class", "-turnover");
-			Elements time = i.getElementsByAttributeValueEnding("class", "-time");
-			Pair pair = new Pair();
-			pair.id = id_int;
-			pair.title = title.text();
-			pair.cost = Pair.parse(cost.text());
-			pair.high = Pair.parse(high.text());
-			pair.low = Pair.parse(low.text());
-			pair.change = Pair.parse(change.text());
-			int len = percent.text().length();
-			pair.percent = Pair.parse(percent.text().substring(0, len - 1));
-			pair.set_turnover(turnover.text());
-			pair.time = time.text();
-			pairs.add(pair);
+	public static ArrayList<Autospectechnics> get_tech(ArrayList<Autospectechnics> tech) throws IOException{
+		for (Autospectechnics i : tech) {
+			i.actual_hours = rnd.nextDouble();
+			i.downtime = rnd.nextDouble();
+			i.engine_hours = rnd.nextDouble();
+			i.fuel_consumption = rnd.nextDouble();
+			i.oil_pressure = rnd.nextDouble(11,41);
 		}
-		return pairs;
+		return tech;
+	}
+	static Random rnd = new Random();
+	public static ArrayList<Autospectechnics> default_tech(){
+		String[] brand = {"Caterpillar","Hitachi","Hyundai","JCB"};
+		String[][] model = {{"320D","320","336d","330D2"},{"ZX330", "ZX200", "ZX240"},{"R210LC","R290LC", "R480", "R520LS"},{"JS220", "JS330", "JS305", "JS160"}};
+		ArrayList<Autospectechnics> technics = new ArrayList<>();
+		for (int i = 0; i < 5; i++) {
+			int i1 = rnd.nextInt() % brand.length;
+			int i2 = rnd.nextInt() % model[i1].length;
+			Autospectechnics tech = new Autospectechnics(brand[i1],model[i1][i2],i);
+			technics.add(tech);
+		}
+		return technics;
 	}
 	public static void main(String[] args) throws IOException {
-		for (Pair i : get_pairs()){
+		for (Autospectechnics i : get_tech(default_tech())){
 			System.out.println(i);
 		}
         SpringApplication.run(Application.class, args);
