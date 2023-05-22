@@ -1,6 +1,7 @@
 package com.example.springboot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Dt {
@@ -24,5 +25,14 @@ public class Dt {
         fuel_info = new ArrayList<>();
         pressure_info = new ArrayList<>();
 
+    }
+    public Dt(List<AutoEntity> list){
+        technics = new ArrayList<>();
+        hours_info = new ArrayList<>();
+        fuel_info = new ArrayList<>();
+        pressure_info = new ArrayList<>();
+        for (AutoEntity i : list){
+            technics.add(new AutoSpecTechnic(i.getBrand(), i.getModel(), i.getId()));
+        }
     }
 }

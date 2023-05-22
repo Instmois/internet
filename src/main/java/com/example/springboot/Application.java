@@ -55,11 +55,15 @@ public class Application implements WebMvcConfigurer {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
-			dt = new Dt();
-
-			for (AutoSpecTechnic i : dt.technics) {
-				AutoSpecTechnic autoSpecTechnic = new AutoSpecTechnic(i.brand, i.model, i.id_tech);
-				techServices.saveUser(autoSpecTechnic);
+			if (techServices.list().size() == 0) {
+				dt = new Dt();
+				for (AutoSpecTechnic i : dt.technics) {
+					AutoSpecTechnic autoSpecTechnic = new AutoSpecTechnic(i.brand, i.model, i.id_tech);
+					techServices.saveUser(autoSpecTechnic);
+				}
+			}
+			else{
+				dt = new Dt(techServices.list());
 			}
 			Thread run = new Thread(new TimerInfo());
 			run.start();
