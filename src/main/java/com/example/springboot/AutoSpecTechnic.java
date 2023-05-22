@@ -5,16 +5,10 @@ import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.TimerTask;
 
-@Entity
-@Table(name = "users")
-public class AutoSpecTechnic {
 
-    @Column(name = "brand")
+public class AutoSpecTechnic {
     String brand;
-    @Column(name = "model")
     String model;
-    @Id
-    @Column(name = "id_tech")
     int id_tech;
 
     public AutoSpecTechnic(String brand, String model, int id_tech) {
