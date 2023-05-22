@@ -15,40 +15,47 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@RestController
-@EnableJpaRepositories("Services") // Укажите пакет, где находится класс TechServices
-@ComponentScan("Services")
-public class Application {
+@Controller
+@EnableJpaRepositories("Services")
+@ComponentScan(basePackages = {"Services", "Configuration"})
+@EnableWebMvc
+public class Application implements WebMvcConfigurer {
 	static Dt dt;
 
-	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
+	@GetMapping("/technics")
+	public String getTechnics(Model model) {
+		List<AutoEntity> technics = techServices.list();
+		model.addAttribute("technics", technics);
+		return "technics";
 	}
-	@GetMapping("/index")
-	public String index(@RequestParam(value = "name", defaultValue = "findex") String name) {
-		return String.format("Hello %s!", name);
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/static/**")
+				.addResourceLocations("classpath:/static/");
 	}
-	@GetMapping("/findex")
-	public String findex(@RequestParam(value = "name", defaultValue = "findex") String name) {
-		return String.format("Hello %s!", name);
-	}
+
 	@Autowired
 	private TechServices techServices;
+
 	public static void main(String[] args) throws IOException {
-        SpringApplication.run(Application.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
-			 dt = new Dt();
+			dt = new Dt();
 
 			for (AutoSpecTechnic i : dt.technics) {
 				AutoSpecTechnic autoSpecTechnic = new AutoSpecTechnic(i.brand, i.model, i.id_tech);
@@ -58,5 +65,4 @@ public class Application {
 			run.start();
 		};
 	}
-
 }

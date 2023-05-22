@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Technics</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Technics</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Brand</th>
+            <th>Model</th>
+        </tr>
+        <tr th:each="technic : ${technics}">
+            <td th:text="${technic.id}"></td>
+            <td th:text="${technic.brand}"></td>
+            <td th:text="${technic.model}"></td>
+        </tr>
+    </table>
+    <div class="excavator-photos">
+        <img src="/static/images/excavator1.jpg" alt="Excavator 1">
+        <img src="/static/images/excavator2.jpg" alt="Excavator 2">
+        <!-- Добавьте дополнительные фотографии экскаваторов по мере необходимости -->
+    </div>
+</div>
+</body>
+</html>
