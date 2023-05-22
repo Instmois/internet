@@ -23,7 +23,6 @@ public class Dt {
         hours_info = new ArrayList<>();
         fuel_info = new ArrayList<>();
         pressure_info = new ArrayList<>();
-        Thread run = new Thread(new TimerInfo());
-        run.start();
+
     }
 }

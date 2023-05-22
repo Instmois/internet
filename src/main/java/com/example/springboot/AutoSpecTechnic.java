@@ -11,6 +11,18 @@ public class AutoSpecTechnic {
     String model;
     int id_tech;
 
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public int getId_tech() {
+        return id_tech;
+    }
+
     public AutoSpecTechnic(String brand, String model, int id_tech) {
         this.brand = brand;
         this.model = model;
