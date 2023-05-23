@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Technics</title>
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script>
+        function redirectToTechnic(id) {
+            window.location.href = "/technics/" + id;
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -14,7 +19,7 @@
             <th>Brand</th>
             <th>Model</th>
         </tr>
-        <tr th:each="technic : ${technics}">
+        <tr th:each="technic : ${technics}" th:onclick="'redirectToTechnic(' + ${technic.id} + ')'" style="cursor: pointer;">
             <td th:text="${technic.id}"></td>
             <td th:text="${technic.brand}"></td>
             <td th:text="${technic.model}"></td>

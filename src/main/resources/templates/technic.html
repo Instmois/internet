@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Technic Details</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <style>
+    .photo-container {
+      text-align: center;
+    }
+    .photo-container img {
+      max-width: 400px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+    <h1>Technic Details</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Brand</th>
+            <th>Model</th>
+        </tr>
+        <tr>
+            <td th:text="${technic.id}"></td>
+            <td th:text="${technic.brand}"></td>
+            <td th:text="${technic.model}"></td>
+        </tr>
+    </table>
+
+    <h2>Photo</h2>
+    <div class="photo-container">
+        <img th:src="${photoUrls[0]}" alt="Photo">
+    </div>
+</div>
+</body>
+</html>
