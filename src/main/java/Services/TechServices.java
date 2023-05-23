@@ -17,7 +17,7 @@ public class TechServices {
         this.techRepository = techRepository;
     }
     public Optional<AutoSpecTechnic> findById(Long id) {
-        return repr.findById(id);
+        return techRepository.findById(id);
     }
 
     @PersistenceContext
