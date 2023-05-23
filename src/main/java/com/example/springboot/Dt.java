@@ -18,21 +18,20 @@ public class Dt {
         for (int i = 0; i < 10; i++) {
             int i1 = rnd.nextInt(0, brand.length);
             int i2 = rnd.nextInt(0, model[i1].length);
-            AutoSpecTechnic tech = new AutoSpecTechnic(brand[i1], model[i1][i2], i + (int)1e6);
+            AutoSpecTechnic tech = new AutoSpecTechnic();
+            tech.setId(i + (int)1e6);
+            tech.setBrand(brand[i1]);
+            tech.setModel(model[i1][i2]);
             technics.add(tech);
         }
         hours_info = new ArrayList<>();
         fuel_info = new ArrayList<>();
         pressure_info = new ArrayList<>();
-
     }
-    public Dt(List<AutoEntity> list){
-        technics = new ArrayList<>();
+    public Dt(List<AutoSpecTechnic> list){
+        technics = new ArrayList<>(list);
         hours_info = new ArrayList<>();
         fuel_info = new ArrayList<>();
         pressure_info = new ArrayList<>();
-        for (AutoEntity i : list){
-            technics.add(new AutoSpecTechnic(i.getBrand(), i.getModel(), i.getId()));
-        }
     }
 }

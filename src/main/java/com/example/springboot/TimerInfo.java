@@ -1,6 +1,5 @@
 package com.example.springboot;
 
-import java.sql.SQLOutput;
 import java.util.TimerTask;
 
 public class TimerInfo extends TimerTask {

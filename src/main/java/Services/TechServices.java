@@ -1,7 +1,5 @@
 package Services;
 
-
-import com.example.springboot.AutoEntity;
 import com.example.springboot.AutoSpecTechnic;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -21,15 +19,11 @@ public class TechServices {
     private EntityManager entityManager;
 
     public void saveUser(AutoSpecTechnic user) {
-        AutoEntity entity = new AutoEntity();
-        entity.setId(user.getId_tech());
-        entity.setBrand(user.getBrand());
-        entity.setModel(user.getModel());
-        repr.save(entity);
+        repr.save(user);
     }
 
-    public List<AutoEntity> list(){
-        List<AutoEntity> technics = repr.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    public List<AutoSpecTechnic> list(){
+        List<AutoSpecTechnic> technics = repr.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return technics;
     }
 }

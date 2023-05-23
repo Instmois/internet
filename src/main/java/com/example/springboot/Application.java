@@ -1,12 +1,8 @@
 package com.example.springboot;
 
 import java.io.IOException;
-import java.time.ZonedDateTime;
 import java.util.*;
-
-import Services.Repr;
 import Services.TechServices;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,9 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -35,7 +28,7 @@ public class Application implements WebMvcConfigurer {
 
 	@GetMapping("/technics")
 	public String getTechnics(Model model) {
-		List<AutoEntity> technics = techServices.list();
+		List<AutoSpecTechnic> technics = techServices.list();
 		model.addAttribute("technics", technics);
 		return "technics";
 	}
@@ -58,8 +51,7 @@ public class Application implements WebMvcConfigurer {
 			if (techServices.list().size() == 0) {
 				dt = new Dt();
 				for (AutoSpecTechnic i : dt.technics) {
-					AutoSpecTechnic autoSpecTechnic = new AutoSpecTechnic(i.brand, i.model, i.id_tech);
-					techServices.saveUser(autoSpecTechnic);
+					techServices.saveUser(i);
 				}
 			}
 			else{
