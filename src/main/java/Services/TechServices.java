@@ -10,20 +10,20 @@ import java.util.List;
 
 @Service
 public class TechServices {
-    private final Repr repr;
+    private final TechRepository techRepository;
     @Autowired
-    public TechServices(Repr repr) {
-        this.repr = repr;
+    public TechServices(TechRepository techRepository) {
+        this.techRepository = techRepository;
     }
     @PersistenceContext
     private EntityManager entityManager;
 
     public void saveUser(AutoSpecTechnic user) {
-        repr.save(user);
+        techRepository.save(user);
     }
 
     public List<AutoSpecTechnic> list(){
-        List<AutoSpecTechnic> technics = repr.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        List<AutoSpecTechnic> technics = techRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return technics;
     }
 }
