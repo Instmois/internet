@@ -21,8 +21,14 @@ h1 {
   color: #ff9900;
   text-align: center;
   margin-bottom: 20px;
+  flex-grow: 1;
 }
-
+h2 {
+  color: #444;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: -20px;
+}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -32,7 +38,6 @@ table {
 th, td {
   padding: 10px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
   color: #fff;
 }
 
@@ -56,9 +61,39 @@ tr:hover {
 }
 
 .excavator-photos img {
-  width: 200px;
+  width: 300px;
   margin: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
+.photo-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+.photo-container img {
+  width: 400px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.header h1 {
+ margin-right: -200px;
+}
+.btn {
+  padding: 10px 20px;
+  background-color: #ff9900;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+
 
