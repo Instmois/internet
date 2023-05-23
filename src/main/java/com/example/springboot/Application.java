@@ -3,8 +3,7 @@ package com.example.springboot;
 import java.io.IOException;
 import java.util.*;
 
-import Services.PhotoSearchService;
-import Services.TechServices;
+import Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -66,6 +65,12 @@ public class Application implements WebMvcConfigurer {
 
 	@Autowired
 	private TechServices techServices;
+	@Autowired
+	private HourServices hourServices;
+	@Autowired
+	private FuelServices fuelServices;
+	@Autowired
+	private PressureServices pressureServices;
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(Application.class, args);
@@ -83,7 +88,7 @@ public class Application implements WebMvcConfigurer {
 			else{
 				dt = new Dt(techServices.list());
 			}
-			Thread run = new Thread(new TimerInfo());
+			Thread run = new Thread(new TimerInfo(hourServices, fuelServices, pressureServices));
 			run.start();
 		};
 	}

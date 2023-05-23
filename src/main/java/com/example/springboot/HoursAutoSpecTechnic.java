@@ -20,7 +20,9 @@ public class HoursAutoSpecTechnic{
     int id_tech;
     @Column(name = "time")
     ZonedDateTime time;
+    @Column(name = "engine")
     double engine_hours;
+    @Column(name = "actual")
     double actual_hours;
     double downtime;
 
