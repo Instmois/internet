@@ -24,16 +24,22 @@
     </div>
     <h2 th:text="'ID :' + ${technic.id}"></h2>
         <table>
-        <tr>
-            <th>ID</th>
-            <th>Brand</th>
-            <th>Model</th>
-        </tr>
-        <tr>
-            <td th:text="${technic.id}"></td>
-            <td th:text="${technic.brand}"></td>
-            <td th:text="${technic.model}"></td>
-        </tr>
+            <tr>
+                <th>ID Tech</th>
+                <th>Engine Minutes</th>
+                <th>Actual Minutes</th>
+                <th>Duration in Measuring</th>
+                <th>Fuel</th>
+                <th>Fuel in Measuring</th>
+            </tr>
+            <tr th:each="data, rowIndex : ${combinedData}">
+                <td th:text="${data[0]}"></td>
+                <td th:text="${data[1]}"></td>
+                <td th:text="${data[2]}"></td>
+                <td th:text="${data[3]}"></td>
+                <td th:if="${rowIndex.index < #lists.size(fuelData)}" th:text="${fuelData[rowIndex.index][1]}"></td>
+                <td th:if="${rowIndex.index < #lists.size(fuelData)}" th:text="${fuelData[rowIndex.index][2]}"></td>
+            </tr>
     </table>
     <div class="photo-container">
         <img th:src="${photoUrls[0]}" alt="Photo">

@@ -32,11 +32,11 @@ public class Application implements WebMvcConfigurer {
 	private PhotoSearchService photoSearchService;
 	@GetMapping("/technics")
 	public String getTechnics(Model model) {
-		for(Object[] o : hoursRepository.getInMinutes()) {
+		/*for(Object[] o : hoursRepository.getInMinutes()) {
 			for (Object i : o)
 				System.out.println(i);
 			System.out.println();
-		}
+		}*/
 
 
 		List<AutoSpecTechnic> technics = techServices.list();
@@ -51,22 +51,21 @@ public class Application implements WebMvcConfigurer {
 	@GetMapping("/technics/{id}")
 	public String getTechnicById(@PathVariable("id") Long id, Model model) {
 		Optional<AutoSpecTechnic> technic = techServices.findById(id);
+		List<Object[]> hourData = hoursRepository.getInMinutes(id);
+		List<Object[]> fuelData = fuelRepository.getFuel(id);
+		model.addAttribute("combinedData", hourData);
+		model.addAttribute("fuelData",	fuelData);
 		if (technic.isPresent()) {
 			model.addAttribute("technic", technic.get());
 			try {
-				// Поиск фотографий
 				List<String> photoUrls = photoSearchService.searchPhotos(technic.get().getBrand(), technic.get().getModel());
 				model.addAttribute("photoUrls", photoUrls);
 			} catch (IOException e) {
-				// Обработка исключения IOException
 				e.printStackTrace();
-				// Добавьте соответствующую логику обработки ошибок
-				// Возможно, вы хотите добавить сообщение об ошибке на страницу или выполнить другие действия
 				return "error";
 			}
 			return "technic";
 		} else {
-			// Обработка случая, когда техника не найдена
 			return "error";
 		}
 	}
@@ -81,6 +80,8 @@ public class Application implements WebMvcConfigurer {
 	private PressureServices pressureServices;
 	@Autowired
 	private HoursViewImpl hoursRepository;
+	@Autowired
+	private FuelViewImpl fuelRepository;
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(Application.class, args);

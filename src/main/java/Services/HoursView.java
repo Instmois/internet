@@ -6,7 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 
 public interface HoursView<T> {
-    T getInMinutes();
+    T getInMinutes(Long id);
 
 }
 
