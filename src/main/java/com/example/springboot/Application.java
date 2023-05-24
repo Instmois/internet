@@ -3,7 +3,6 @@ package com.example.springboot;
 import java.io.IOException;
 import java.util.*;
 
-import Agregated.HoursData;
 import Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -32,13 +31,6 @@ public class Application implements WebMvcConfigurer {
 	private PhotoSearchService photoSearchService;
 	@GetMapping("/technics")
 	public String getTechnics(Model model) {
-		/*for(Object[] o : hoursRepository.getInMinutes()) {
-			for (Object i : o)
-				System.out.println(i);
-			System.out.println();
-		}*/
-
-
 		List<AutoSpecTechnic> technics = techServices.list();
 		model.addAttribute("technics", technics);
 		return "technics";
@@ -51,7 +43,7 @@ public class Application implements WebMvcConfigurer {
 	@GetMapping("/technics/{id}")
 	public String getTechnicById(@PathVariable("id") Long id, Model model) {
 		Optional<AutoSpecTechnic> technic = techServices.findById(id);
-		List<Object[]> hourData = hoursRepository.getInMinutes(id);
+		List<Object[]> hourData = hoursRepository.getInHours(id);
 		List<Object[]> fuelData = fuelRepository.getFuel(id);
 		model.addAttribute("combinedData", hourData);
 		model.addAttribute("fuelData",	fuelData);

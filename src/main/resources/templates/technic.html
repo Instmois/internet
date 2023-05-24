@@ -20,25 +20,27 @@
 
     <div class="header">
         <h1 th:text="${technic.brand} + ' ' + ${technic.model}"></h1>
-        <a href="/technics" class="btn">Вернуться на главную</a>
+        <a href="/technics" class="btn">Return to main</a>
     </div>
     <h2 th:text="'ID :' + ${technic.id}"></h2>
         <table>
             <tr>
                 <th>ID Tech</th>
-                <th>Engine Minutes</th>
-                <th>Actual Minutes</th>
-                <th>Duration in Measuring</th>
-                <th>Fuel</th>
-                <th>Fuel in Measuring</th>
+                <th>Engine Hours</th>
+                <th>Percentage of work</th>
+                <th>Actual Hours</th>
+                <th>Percentage (of machine hours) of actual work</th>
+                <th>Duration of Measuring</th>
+                <th>Fuel consumption (litters per hour)</th>
             </tr>
             <tr th:each="data, rowIndex : ${combinedData}">
                 <td th:text="${data[0]}"></td>
                 <td th:text="${data[1]}"></td>
                 <td th:text="${data[2]}"></td>
                 <td th:text="${data[3]}"></td>
+                <td th:text="${data[4]}"></td>
+                <td th:text="${data[5]}"></td>
                 <td th:if="${rowIndex.index < #lists.size(fuelData)}" th:text="${fuelData[rowIndex.index][1]}"></td>
-                <td th:if="${rowIndex.index < #lists.size(fuelData)}" th:text="${fuelData[rowIndex.index][2]}"></td>
             </tr>
     </table>
     <div class="photo-container">
