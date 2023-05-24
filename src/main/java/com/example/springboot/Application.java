@@ -30,6 +30,7 @@ public class Application implements WebMvcConfigurer {
 	// TODO: Notifications at low oil pressure
 	// TODO: Notifications at high fuel consumption
 	// TODO: Extend data on other pages
+	// TODO: Fuel graph
 	static Dt dt;
 	@Autowired
 	private PhotoSearchService photoSearchService;
