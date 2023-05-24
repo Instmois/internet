@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "pressure", schema = "public")
 @Component
-public class PressureAutoSpecTechic{
+public class PressureAutoSpecTechnic {
     public static final int dtime = 1; // minimum number seconds between measurements
     @Id
     @GeneratedValue
@@ -25,10 +25,10 @@ public class PressureAutoSpecTechic{
     @Column(name = "oil_pressure")
     double oil_pressure;
 
-    public PressureAutoSpecTechic() {
+    public PressureAutoSpecTechnic() {
     }
 
-    public PressureAutoSpecTechic(int id_tech, ZonedDateTime time, double oil_pressure) {
+    public PressureAutoSpecTechnic(int id_tech, ZonedDateTime time, double oil_pressure) {
         this.id_tech = id_tech;
         this.time = time;
         this.oil_pressure = oil_pressure;

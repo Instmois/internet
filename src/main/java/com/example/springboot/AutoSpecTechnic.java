@@ -23,9 +23,9 @@ public class AutoSpecTechnic {
         double actual_hours = Dt.rnd.nextDouble() * (engine_hours - 0.0);
         return new HoursAutoSpecTechnic(this.id, ZonedDateTime.now(), engine_hours, actual_hours);
     }
-    public PressureAutoSpecTechic generate_pressure_info(){
-        double oil_pressure = Dt.rnd.nextDouble() * (PressureAutoSpecTechic.max_pressure - PressureAutoSpecTechic.min_pressure) + PressureAutoSpecTechic.min_pressure;
-        return new PressureAutoSpecTechic(this.id, ZonedDateTime.now(), oil_pressure);
+    public PressureAutoSpecTechnic generate_pressure_info(){
+        double oil_pressure = Dt.rnd.nextDouble() * (PressureAutoSpecTechnic.max_pressure - PressureAutoSpecTechnic.min_pressure) + PressureAutoSpecTechnic.min_pressure;
+        return new PressureAutoSpecTechnic(this.id, ZonedDateTime.now(), oil_pressure);
     }
     public FuelAutoSpecTechnic generate_fuel_info(){
         double fuel_consumption = Dt.rnd.nextDouble() * (FuelAutoSpecTechnic.max_fuelc - 0.0);

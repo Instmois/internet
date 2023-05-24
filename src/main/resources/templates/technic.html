@@ -25,22 +25,24 @@
     <h2 th:text="'ID :' + ${technic.id}"></h2>
         <table>
             <tr>
-                <th>ID Tech</th>
+<!--                <th>ID Tech</th>-->
                 <th>Engine Hours</th>
                 <th>Percentage of work</th>
                 <th>Actual Hours</th>
                 <th>Percentage (of machine hours) of actual work</th>
                 <th>Duration of Measuring</th>
                 <th>Fuel consumption (litters per hour)</th>
+                <th>Oil pressure (MegaPascal)</th>
             </tr>
             <tr th:each="data, rowIndex : ${combinedData}">
-                <td th:text="${data[0]}"></td>
+<!--                <td th:text="${data[0]}"></td>-->
                 <td th:text="${data[1]}"></td>
                 <td th:text="${data[2]}"></td>
                 <td th:text="${data[3]}"></td>
                 <td th:text="${data[4]}"></td>
                 <td th:text="${data[5]}"></td>
                 <td th:if="${rowIndex.index < #lists.size(fuelData)}" th:text="${fuelData[rowIndex.index][1]}"></td>
+                <td th:if="${rowIndex.index < #lists.size(pressure)}" th:text="${pressure[rowIndex.index][1]}"></td>
             </tr>
     </table>
     <div class="photo-container">

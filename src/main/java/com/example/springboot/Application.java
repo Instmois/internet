@@ -26,6 +26,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {"Services", "Configuration"})
 @EnableWebMvc
 public class Application implements WebMvcConfigurer {
+	// TODO: Automatic updating of parameters on pages technic
+	// TODO: Notifications at low oil pressure
+	// TODO: Notifications at high fuel consumption
+	// TODO: Extend data on other pages
 	static Dt dt;
 	@Autowired
 	private PhotoSearchService photoSearchService;
@@ -45,9 +49,11 @@ public class Application implements WebMvcConfigurer {
 		Optional<AutoSpecTechnic> technic = techServices.findById(id);
 		List<Object[]> hourData = hoursRepository.getInHours(id);
 		List<Object[]> fuelData = fuelRepository.getFuel(id);
-		model.addAttribute("combinedData", hourData);
-		model.addAttribute("fuelData",	fuelData);
+		List<Object[]> pressureData = pressureRepository.getOil(id);
 		if (technic.isPresent()) {
+			model.addAttribute("combinedData", hourData);
+			model.addAttribute("fuelData",	fuelData);
+			model.addAttribute("pressure", pressureData);
 			model.addAttribute("technic", technic.get());
 			try {
 				List<String> photoUrls = photoSearchService.searchPhotos(technic.get().getBrand(), technic.get().getModel());
@@ -74,6 +80,8 @@ public class Application implements WebMvcConfigurer {
 	private HoursViewImpl hoursRepository;
 	@Autowired
 	private FuelViewImpl fuelRepository;
+	@Autowired
+	private PressureViewImpl pressureRepository;
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(Application.class, args);

@@ -8,7 +8,7 @@ public class Dt {
     ArrayList<AutoSpecTechnic> technics;
     ArrayList<HoursAutoSpecTechnic> hours_info;
     ArrayList<FuelAutoSpecTechnic> fuel_info;
-    ArrayList<PressureAutoSpecTechic> pressure_info;
+    ArrayList<PressureAutoSpecTechnic> pressure_info;
     public static Random rnd = new Random();
 
     public Dt() {

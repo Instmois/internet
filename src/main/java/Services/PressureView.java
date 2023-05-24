@@ -1,4 +1,5 @@
 package Services;
 
-public interface PressureView {
+public interface PressureView<T> {
+    T getOil(Long id);
 }

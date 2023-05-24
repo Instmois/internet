@@ -1,6 +1,6 @@
 package Services;
 
-import com.example.springboot.PressureAutoSpecTechic;
+import com.example.springboot.PressureAutoSpecTechnic;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ public class PressureServices {
     }
     @PersistenceContext
     private EntityManager entityManager;
-    public void savePressure(PressureAutoSpecTechic pressure){
+    public void savePressure(PressureAutoSpecTechnic pressure){
         pressureRepository.save(pressure);
     }
-    public List<PressureAutoSpecTechic> list(){
+    public List<PressureAutoSpecTechnic> list(){
         return pressureRepository.findAll();
     }
 }

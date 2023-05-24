@@ -3,8 +3,6 @@ package com.example.springboot;
 import Services.FuelServices;
 import Services.HourServices;
 import Services.PressureServices;
-import org.hibernate.property.access.spi.PropertyAccessStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.TimerTask;
 
@@ -33,8 +31,8 @@ public class TimerInfo extends TimerTask {
                         Application.dt.fuel_info.add(ft);
                         fuelServices.saveFuel(ft);
                     }
-                    if (i % PressureAutoSpecTechic.dtime == 0) {
-                        PressureAutoSpecTechic pt = technic.generate_pressure_info();
+                    if (i % PressureAutoSpecTechnic.dtime == 0) {
+                        PressureAutoSpecTechnic pt = technic.generate_pressure_info();
                         Application.dt.pressure_info.add(pt);
                         pressureServices.savePressure(pt);
                     }
