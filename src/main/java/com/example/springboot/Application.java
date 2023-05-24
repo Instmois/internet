@@ -3,6 +3,7 @@ package com.example.springboot;
 import java.io.IOException;
 import java.util.*;
 
+import Agregated.HoursData;
 import Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,6 +32,13 @@ public class Application implements WebMvcConfigurer {
 	private PhotoSearchService photoSearchService;
 	@GetMapping("/technics")
 	public String getTechnics(Model model) {
+		for(Object[] o : hoursRepository.getInMinutes()) {
+			for (Object i : o)
+				System.out.println(i);
+			System.out.println();
+		}
+
+
 		List<AutoSpecTechnic> technics = techServices.list();
 		model.addAttribute("technics", technics);
 		return "technics";
@@ -71,6 +79,8 @@ public class Application implements WebMvcConfigurer {
 	private FuelServices fuelServices;
 	@Autowired
 	private PressureServices pressureServices;
+	@Autowired
+	private HoursViewImpl hoursRepository;
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(Application.class, args);
