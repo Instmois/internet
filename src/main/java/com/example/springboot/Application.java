@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -26,18 +27,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {"Services", "Configuration"})
 @EnableWebMvc
 public class Application implements WebMvcConfigurer {
-	// TODO: Automatic updating of parameters on pages technic
-	// TODO: Notifications at low oil pressure
-	// TODO: Notifications at high fuel consumption
+	// TODO: Automatic updating of parameters on pages technic - complited
+	// TODO: Notifications at low oil pressure - complited
+	// TODO: Notifications at high fuel consumption - complited
 	// TODO: Extend data on other pages
 	// TODO: Fuel graph
+	// TODO: Add map - complited
 	static Dt dt;
+	CoordinatesGenerator Rnd;
 	@Autowired
 	private PhotoSearchService photoSearchService;
 	@GetMapping("/technics")
 	public String getTechnics(Model model) {
+		Rnd = new CoordinatesGenerator();
 		List<AutoSpecTechnic> technics = techServices.list();
 		model.addAttribute("technics", technics);
+		model.addAttribute("latitude", Rnd.coordLat);
+		model.addAttribute("longitude", Rnd.coordLong);
 		return "technics";
 	}
 	@Override
@@ -68,6 +74,50 @@ public class Application implements WebMvcConfigurer {
 			return "error";
 		}
 	}
+	@GetMapping("/technics/{id}/parameters")
+	@ResponseBody
+	public Map<String, Object> getTechnicParameters(@PathVariable("id") Long id) {
+		Map<String, Object> parameters = new HashMap<>();
+
+		List<Object[]> hourData = hoursRepository.getInHours(id);
+		List<Object[]> fuelData = fuelRepository.getFuel(id);
+		List<Object[]> pressureData = pressureRepository.getOil(id);
+
+		if (!hourData.isEmpty()) {
+			Object[] hourDataRow = hourData.get(0);
+			parameters.put("engineHours", hourDataRow[1]);
+			parameters.put("percentageOfWork", hourDataRow[2]);
+			parameters.put("actualHours", hourDataRow[3]);
+			parameters.put("percentageWork", hourDataRow[4]);
+			parameters.put("durationMeasuring", hourDataRow[5]);
+		}
+
+		if (!fuelData.isEmpty()) {
+			Object[] fuelDataRow = fuelData.get(0);
+			parameters.put("fuelConsumption", fuelDataRow[1]);
+		}
+
+		if (!pressureData.isEmpty()) {
+			Object[] pressureDataRow = pressureData.get(0);
+			parameters.put("oilPressure", pressureDataRow[1]);
+		}
+
+		return parameters;
+	}
+
+
+	/*
+    @GetMapping("/technics/{id}/parameters")
+    public Map<String, Object> getTechnicParameters(@PathVariable("id") Long id) {
+        Map<String, Object> responseData = new HashMap<>();
+        List<Object[]> combinedData =  hoursRepository.getInHours(id);// Получите обновленные значения combinedData из репозитория или сервиса
+        List<Object[]> fuelData =  fuelRepository.getFuel(id);// Получите обновленные значения fuelData из репозитория или сервиса
+        List<Object[]> pressureData = pressureRepository.getOil(id);// Получите обновленные значения pressureData из репозитория или сервиса
+        responseData.put("combinedData", combinedData);
+        responseData.put("fuelData", fuelData);
+        responseData.put("pressureData", pressureData);
+        return responseData;
+    }*/
 
 	@Autowired
 	private TechServices techServices;

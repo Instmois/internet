@@ -3,6 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Technic Details</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            var technicId = [[${technic.id}]] ;
+            updateParameters();
+
+            function updateParameters() {
+                $.ajax({
+                    url: "/technics/" + technicId + "/parameters",
+                    type: "GET",
+                    success: function(response) {
+                        $("#engineHours").text(response.engineHours);
+                        $("#percentageOfWork").text(response.percentageOfWork);
+                        $("#actualHours").text(response.actualHours);
+                        $("#percentageWork").text(response.percentageWork);
+                        $("#durationMeasuring").text(response.durationMeasuring);
+                        console.log(response.fuelConsumption);
+
+                        checkPressure(response.oilPressure);
+                        checkFuelConsumption(response.fuelConsumption);
+
+                        setInterval(function() {
+                            $.ajax({
+                                url: "/technics/" + technicId + "/parameters",
+                                type: "GET",
+                                success: function(response) {
+                                    $("#fuelConsumption").text(response.fuelConsumption);
+                                    $("#oilPressure").text(response.oilPressure);
+                                    checkPressure(response.oilPressure);
+                                    checkFuelConsumption(response.fuelConsumption);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error(error);
+                                }
+                            });
+                        }, 10000); // 10 секунд
+
+                        setTimeout(updateParameters, 60 * 60 * 1000);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            function checkPressure(pressure) {
+                if (pressure < 25.0) {
+                    alert("Внимание: Давление масла слишком низкое!");
+                }
+            }
+
+            function checkFuelConsumption(fuelConsumption) {
+                if (fuelConsumption > 20.0) {
+                    alert("Внимание: Обнаружено высокое потребление топлива!");
+                }
+            }
+        });
+
+    </script>
+
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
     <style>
     .photo-container {
@@ -12,6 +73,10 @@
       max-width: 400px;
       height: auto;
     }
+      #fuelChart {
+    width: 100%; /* Установите ширину контейнера графика */
+    height: 400px; /* Установите высоту контейнера графика */
+  }
   </style>
 </head>
 <body>
@@ -23,27 +88,25 @@
         <a href="/technics" class="btn">Return to main</a>
     </div>
     <h2 th:text="'ID :' + ${technic.id}"></h2>
-        <table>
-            <tr>
-<!--                <th>ID Tech</th>-->
-                <th>Engine Hours</th>
-                <th>Percentage of work</th>
-                <th>Actual Hours</th>
-                <th>Percentage (of machine hours) of actual work</th>
-                <th>Duration of Measuring</th>
-                <th>Fuel consumption (litters per hour)</th>
-                <th>Oil pressure (MegaPascal)</th>
-            </tr>
-            <tr th:each="data, rowIndex : ${combinedData}">
-<!--                <td th:text="${data[0]}"></td>-->
-                <td th:text="${data[1]}"></td>
-                <td th:text="${data[2]}"></td>
-                <td th:text="${data[3]}"></td>
-                <td th:text="${data[4]}"></td>
-                <td th:text="${data[5]}"></td>
-                <td th:if="${rowIndex.index < #lists.size(fuelData)}" th:text="${fuelData[rowIndex.index][1]}"></td>
-                <td th:if="${rowIndex.index < #lists.size(pressure)}" th:text="${pressure[rowIndex.index][1]}"></td>
-            </tr>
+    <table>
+        <tr>
+            <th>Engine Hours</th>
+            <th>Percentage of work</th>
+            <th>Actual Hours</th>
+            <th>Percentage (of machine hours) of actual work</th>
+            <th>Duration of Measuring</th>
+            <th>Fuel consumption (liters per hour)</th>
+            <th>Oil pressure (MegaPascal)</th>
+        </tr>
+        <tr th:each="data, rowIndex : ${combinedData}">
+            <td id="engineHours" th:text="${data[1]}"></td>
+            <td id="percentageOfWork" th:text="${data[2]}"></td>
+            <td id="actualHours" th:text="${data[3]}"></td>
+            <td id="percentageWork" th:text="${data[4]}"></td>
+            <td id="durationMeasuring" th:text="${data[5]}"></td>
+            <td id="fuelConsumption" th:if="${rowIndex.index < #lists.size(fuelData)}" th:text="${fuelData[rowIndex.index][1]}"></td>
+            <td id="oilPressure" th:if="${rowIndex.index < #lists.size(pressure)}" th:text="${pressure[rowIndex.index][1]}"></td>
+        </tr>
     </table>
     <div class="photo-container">
         <img th:src="${photoUrls[0]}" alt="Photo">
