@@ -39,7 +39,7 @@
                                     console.error(error);
                                 }
                             });
-                        }, 10000); // 10 секунд
+                        }, 1000); // 1 секунда
 
                         setTimeout(updateParameters, 60 * 60 * 1000);
                     },
@@ -50,13 +50,13 @@
             }
 
             function checkPressure(pressure) {
-                if (pressure < 0.0) {
+                if (pressure < 20.0) {
                     alert("Внимание: Давление масла слишком низкое!");
                 }
             }
 
             function checkFuelConsumption(fuelConsumption) {
-                if (fuelConsumption > 100.0) {
+                if (fuelConsumption > 50.0) {
                     alert("Внимание: Обнаружено высокое потребление топлива!");
                 }
             }
@@ -74,8 +74,8 @@
       height: auto;
     }
       #fuelChart {
-    width: 100%; /* Установите ширину контейнера графика */
-    height: 400px; /* Установите высоту контейнера графика */
+    width: 100%;
+    height: 400px;
   }
   </style>
 </head>

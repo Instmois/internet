@@ -37,7 +37,6 @@ public class TimerInfo extends TimerTask {
                         pressureServices.savePressure(pt);
                     }
                     if (i % 3600 == 0){
-                        // TODO: Automatic delete old pressure data
                     }
                 }
                 Thread.sleep(1000);

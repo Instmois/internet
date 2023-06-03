@@ -25,7 +25,7 @@ public class PhotoSearchService {
     public PhotoSearchService() throws GeneralSecurityException, IOException {
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         customsearch = new Customsearch.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
-                .setApplicationName("Youssadasd")
+                .setApplicationName("d")
                 .setGoogleClientRequestInitializer(new CustomsearchRequestInitializer("AIzaSyBzGNFPTF7W7UJQGegydzpiHPtVx9bpxwI"))
                 .build();
     }
@@ -37,10 +37,8 @@ public class PhotoSearchService {
         search.setCx("23aa6f58504994312");
         search.setNum(5); // Количество фотографий для получения
         search.setSearchType("image");
-
         Search result = search.execute();
         List<Result> items = result.getItems();
-
         List<String> photoUrls = new ArrayList<>();
         if (items != null) {
             for (Result item : items) {

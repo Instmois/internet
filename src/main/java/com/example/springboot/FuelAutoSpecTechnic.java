@@ -20,7 +20,7 @@ public class FuelAutoSpecTechnic{
     int id_tech;
     @Column(name = "time")
     ZonedDateTime time;
-    private static final double max_fc = 100; // litters per hour
+    private static final double max_fc = 50; // litters per hour
     public static final double max_fuelc = max_fc / 3600 * dtime;
     @Column(name = "consumption")
     double fuel_consumption;

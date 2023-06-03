@@ -2,7 +2,6 @@ package com.example.springboot;
 
 import java.io.IOException;
 import java.util.*;
-
 import Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,12 +26,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {"Services", "Configuration"})
 @EnableWebMvc
 public class Application implements WebMvcConfigurer {
-	// TODO: Automatic updating of parameters on pages technic - complited
-	// TODO: Notifications at low oil pressure - complited
-	// TODO: Notifications at high fuel consumption - complited
-	// TODO: Extend data on other pages
-	// TODO: Fuel graph
-	// TODO: Add map - complited
 	static Dt dt;
 	CoordinatesGenerator Rnd;
 	@Autowired
@@ -105,19 +98,6 @@ public class Application implements WebMvcConfigurer {
 		return parameters;
 	}
 
-
-	/*
-    @GetMapping("/technics/{id}/parameters")
-    public Map<String, Object> getTechnicParameters(@PathVariable("id") Long id) {
-        Map<String, Object> responseData = new HashMap<>();
-        List<Object[]> combinedData =  hoursRepository.getInHours(id);// Получите обновленные значения combinedData из репозитория или сервиса
-        List<Object[]> fuelData =  fuelRepository.getFuel(id);// Получите обновленные значения fuelData из репозитория или сервиса
-        List<Object[]> pressureData = pressureRepository.getOil(id);// Получите обновленные значения pressureData из репозитория или сервиса
-        responseData.put("combinedData", combinedData);
-        responseData.put("fuelData", fuelData);
-        responseData.put("pressureData", pressureData);
-        return responseData;
-    }*/
 
 	@Autowired
 	private TechServices techServices;
